@@ -1,12 +1,15 @@
+![Build Docs](https://github.com/pillargg/youtube-upload/workflows/Build%20Docs/badge.svg?branch=master) ![Upload Python Package](https://github.com/pillargg/youtube-upload/workflows/Upload%20Python%20Package/badge.svg?branch=master)
+
 # PillarGG YouTube Uploader
 Upload Youtube Videos and more via Python.
 
 # Getting Started
+
 `pip install pillar-youtube-upload`
 
-This project uses the [Youtube Data API](https://developers.google.com/youtube/v3/docs/videos/insert)
+This project uses the [Youtube Data API](https://developers.google.com/youtube/v3/docs/videos/insert).
 
-All implementations of youtube upload needs some form of [authentication](https://developers.google.com/youtube/v3/guides/authentication)
+All implementations of youtube upload needs some form of [authentication](https://developers.google.com/youtube/v3/guides/authentication).
 
 ## Client Side youtube upload
 To upload youtube videos as a client, you need to follow [this guide](https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps).
@@ -17,19 +20,19 @@ To upload youtube videos as a server, you need to follow [this guide](https://de
 
 
 ## Getting a youtube api key
-1. First, you need to go to [this website](https://console.developers.google.com/apis/library)
+1. First, you need to go to [this website](https://console.developers.google.com/apis/library).
 2. If prompted, select a project, or create a new one.
 3. Use the Library page to find and enable the YouTube Data API v3. 
-4. Go to the [credentials page](https://console.developers.google.com/apis/credentials)
-5. Click Create credentials > OAuth client ID
-6. Select the Web application app type
-7. Fill in the form and click create. For testing redirect URIs that refer to the local machine with http://localhost:8080 
+4. Go to the [credentials page](https://console.developers.google.com/apis/credentials).
+5. Click `Create Credentials > OAuth client ID`.
+6. Select the Web application app type.
+7. Fill in the form and click create. For testing redirect URIs that refer to the local machine with `http://localhost:8080`. 
 8. Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class `YouTubeUploader` is being initialized.
-8. Get your client_id and client_secret
+8. Get your `client_id` and `client_secret`.
 
 We recommend that you [design your app's auth endpoints](https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode) so that your application does not expose authorization codes to other resources on the page.
 
-The key must have the scope 'https://www.googleapis.com/auth/youtube.upload'
+The key must have the scope 'https://www.googleapis.com/auth/youtube.upload'.
 
 
 ## Usage Info
