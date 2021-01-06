@@ -1,9 +1,8 @@
 name: Build Docs
 
-on: 
-  push:
-    branches:
-      - master
+on:
+  release:
+    types: [created]
 
 jobs:
   generate:
