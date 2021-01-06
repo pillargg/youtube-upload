@@ -9,11 +9,11 @@ This project uses the [Youtube Data API](https://developers.google.com/youtube/v
 All implementations of youtube upload needs some form of [authentication](https://developers.google.com/youtube/v3/guides/authentication)
 
 ## Client Side youtube upload
-To upload youtube videos as a client, you need to follow (https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps)
+To upload youtube videos as a client, you need to follow [this guide](https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps).
 
 
 ## Server Side youtube upload
-To upload youtube videos as a server, you need to follow (https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps)
+To upload youtube videos as a server, you need to follow [this guide](https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps).
 
 
 ## Getting a youtube api key
@@ -23,8 +23,8 @@ To upload youtube videos as a server, you need to follow (https://developers.goo
 4. Go to the [credentials page](https://console.developers.google.com/apis/credentials)
 5. Click Create credentials > OAuth client ID
 6. Select the Web application app type
-7. Fill in the form and click create. For testing redirect URIs that refer to the local machine such as http://localhost:8080 will work fine
-8. Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access.
+7. Fill in the form and click create. For testing redirect URIs that refer to the local machine with http://localhost:8080 
+8. Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class `YouTubeUploader` is being initialized.
 8. Get your client_id and client_secret
 
 We recommend that you [design your app's auth endpoints](https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode) so that your application does not expose authorization codes to other resources on the page.
@@ -59,23 +59,22 @@ This file should be called client_secrets.sjon and exist in the directory this s
 
 ```python
 # youtube upload api
-import youtube_upload
+from youtube_upload.client import YouTubeUploader
 
-uploader = youtube_upload.YoutubeUploader(client_id,client_secret)
-```
+uploader = YoutubeUploader(client_id,client_secret)
+uploader.authenticate()
 
-```python
-# upload video
-
+# Video options
 options = {
     title : "Example title",
     description : "Example description",
-    tags : "tag1 tag2 tag3",
+    tags : ["tag1", "tag2", "tag3"],
     categoryId : "22",
     privacyStatus : "private",
-    kids : "false"
+    kids : False
     thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
 }
 
+# upload video
 uploader.upload(file_path, options) 
 ```
