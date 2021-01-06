@@ -1,4 +1,4 @@
-# youtube-upload
+# PillarGG YouTube Uploader
 Upload Youtube Videos and more via Python.
 
 # Getting Started
