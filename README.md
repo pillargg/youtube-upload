@@ -2,11 +2,12 @@
 Upload Youtube Videos and more via Python.
 
 # Getting Started
+
 `pip install pillar-youtube-upload`
 
-This project uses the [Youtube Data API](https://developers.google.com/youtube/v3/docs/videos/insert)
+This project uses the [Youtube Data API](https://developers.google.com/youtube/v3/docs/videos/insert).
 
-All implementations of youtube upload needs some form of [authentication](https://developers.google.com/youtube/v3/guides/authentication)
+All implementations of youtube upload needs some form of [authentication](https://developers.google.com/youtube/v3/guides/authentication).
 
 ## Client Side youtube upload
 To upload youtube videos as a client, you need to follow [this guide](https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps).
