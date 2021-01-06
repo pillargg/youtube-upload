@@ -1,0 +1,19 @@
+site_name: Pillar Youtube Uploader
+
+theme:
+  name: "material"
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: blue
+
+plugins:
+- search
+- mkdocstrings:
+    default_handler: python
+    handlers:
+      python:
+        rendering: 
+          show_sources: false
+      watch:
+        - youtube_upload
