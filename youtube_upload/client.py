@@ -46,12 +46,13 @@ class YoutubeUploader():
 
         self.max_retry = MAX_RETRIES
 
-    def authenticate(self):
+    # This is if you have another OAuth file to use
+    def authenticate(self, oauth_path='oauth.json'):
         self.flow = flow_from_clientsecrets(
             self.secrets_file,
             scope=YOUTUBE_UPLOAD_SCOPE,
             message=MISSING_CLIENT_SECRETS_MESSAGE)
-        storage = Storage('oauth.json')
+        storage = Storage(oauth_path)
         self.credentials = storage.get()
 
         if self.credentials is None or self.credentials.invalid:
