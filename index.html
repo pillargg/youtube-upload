@@ -94,7 +94,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              PillarGG YouTube Uploader
+              Home
             
           </span>
         </div>
@@ -182,7 +182,7 @@
     
     
     <a href="." class="md-nav__link md-nav__link--active">
-      PillarGG YouTube Uploader
+      Home
     </a>
     
   </li>
@@ -230,30 +230,31 @@
               
                 
                 
-                <h1 id="pillargg-youtube-uploader">PillarGG YouTube Uploader</h1>
+                <p><img alt="Build Docs" src="https://github.com/pillargg/youtube-upload/workflows/Build%20Docs/badge.svg?branch=master" /> <img alt="Upload Python Package" src="https://github.com/pillargg/youtube-upload/workflows/Upload%20Python%20Package/badge.svg?branch=master" /></p>
+<h1 id="pillargg-youtube-uploader">PillarGG YouTube Uploader</h1>
 <p>Upload Youtube Videos and more via Python.</p>
 <h1 id="getting-started">Getting Started</h1>
 <p><code>pip install pillar-youtube-upload</code></p>
-<p>This project uses the <a href="https://developers.google.com/youtube/v3/docs/videos/insert">Youtube Data API</a></p>
-<p>All implementations of youtube upload needs some form of <a href="https://developers.google.com/youtube/v3/guides/authentication">authentication</a></p>
+<p>This project uses the <a href="https://developers.google.com/youtube/v3/docs/videos/insert">Youtube Data API</a>.</p>
+<p>All implementations of youtube upload needs some form of <a href="https://developers.google.com/youtube/v3/guides/authentication">authentication</a>.</p>
 <h2 id="client-side-youtube-upload">Client Side youtube upload</h2>
 <p>To upload youtube videos as a client, you need to follow <a href="https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps">this guide</a>.</p>
 <h2 id="server-side-youtube-upload">Server Side youtube upload</h2>
 <p>To upload youtube videos as a server, you need to follow <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps">this guide</a>.</p>
 <h2 id="getting-a-youtube-api-key">Getting a youtube api key</h2>
 <ol>
-<li>First, you need to go to <a href="https://console.developers.google.com/apis/library">this website</a></li>
+<li>First, you need to go to <a href="https://console.developers.google.com/apis/library">this website</a>.</li>
 <li>If prompted, select a project, or create a new one.</li>
 <li>Use the Library page to find and enable the YouTube Data API v3. </li>
-<li>Go to the <a href="https://console.developers.google.com/apis/credentials">credentials page</a></li>
-<li>Click Create credentials &gt; OAuth client ID</li>
-<li>Select the Web application app type</li>
-<li>Fill in the form and click create. For testing redirect URIs that refer to the local machine with http://localhost:8080 </li>
+<li>Go to the <a href="https://console.developers.google.com/apis/credentials">credentials page</a>.</li>
+<li>Click <code>Create Credentials &gt; OAuth client ID</code>.</li>
+<li>Select the Web application app type.</li>
+<li>Fill in the form and click create. For testing redirect URIs that refer to the local machine with <code>http://localhost:8080</code>. </li>
 <li>Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class <code>YouTubeUploader</code> is being initialized.</li>
-<li>Get your client_id and client_secret</li>
+<li>Get your <code>client_id</code> and <code>client_secret</code>.</li>
 </ol>
 <p>We recommend that you <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode">design your app's auth endpoints</a> so that your application does not expose authorization codes to other resources on the page.</p>
-<p>The key must have the scope 'https://www.googleapis.com/auth/youtube.upload'</p>
+<p>The key must have the scope 'https://www.googleapis.com/auth/youtube.upload'.</p>
 <h2 id="usage-info">Usage Info</h2>
 <p>This module uploads a given video to a youtube channel, as such there are 2 things this module needs. 
 - A video
