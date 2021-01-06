@@ -17,6 +17,10 @@ from youtube_upload import (MAX_RETRIES, MISSING_CLIENT_SECRETS_MESSAGE,
 
 
 class YoutubeUploader():
+    '''
+    The YouTube Uploader client.
+    '''
+
     def __init__(
         self,
         client_id="",
@@ -24,7 +28,25 @@ class YoutubeUploader():
         secrets_file_path=os.path.join(
             '.',
             'client_secrets.json')):
+        '''
+        Initialization Function for the class. 
 
+        The variables `client_id` and `client_secret` can be passed in when the class is initialized, this will have the function generate the `client_secrets.json` file. 
+
+        If you do not pass the variables in, the class will look for a `client_secrets.json` file in the same direction in which the script is being initialized. You can instead
+        pass in a directory to where the `client_secrets.json` is with the parameter `secrets_file_path` here is an example `client_secrets.json` file:
+        ```json
+        {
+            "web": {
+            "client_id": "",
+            "client_secret": "",
+            "redirect_uris": [],
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://accounts.google.com/o/oauth2/token"
+            }
+        }
+        ```
+        '''
         if client_id == "" or client_secret == "":
             self.secrets_file = secrets_file_path
         else:
@@ -48,6 +70,8 @@ class YoutubeUploader():
 
     # This is if you have another OAuth file to use
     def authenticate(self, oauth_path='oauth.json'):
+        '''
+        '''
         self.flow = flow_from_clientsecrets(
             self.secrets_file,
             scope=YOUTUBE_UPLOAD_SCOPE,
