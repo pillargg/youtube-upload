@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#youtubeuploader-docs" class="md-skip">
+        <a href="#pillargg-youtube-uploader" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              YoutubeUploader Docs
+              PillarGG YouTube Uploader
             
           </span>
         </div>
@@ -182,7 +182,7 @@
     
     
     <a href="." class="md-nav__link md-nav__link--active">
-      YoutubeUploader Docs
+      PillarGG YouTube Uploader
     </a>
     
   </li>
@@ -230,8 +230,75 @@
               
                 
                 
-                <h1 id="youtubeuploader-docs">YoutubeUploader Docs</h1>
-<p>Welcome to the Pillar Youtube-Upload docs. All documentation for this project can be found here.</p>
+                <h1 id="pillargg-youtube-uploader">PillarGG YouTube Uploader</h1>
+<p>Upload Youtube Videos and more via Python.</p>
+<h1 id="getting-started">Getting Started</h1>
+<p><code>pip install pillar-youtube-upload</code></p>
+<p>This project uses the <a href="https://developers.google.com/youtube/v3/docs/videos/insert">Youtube Data API</a></p>
+<p>All implementations of youtube upload needs some form of <a href="https://developers.google.com/youtube/v3/guides/authentication">authentication</a></p>
+<h2 id="client-side-youtube-upload">Client Side youtube upload</h2>
+<p>To upload youtube videos as a client, you need to follow <a href="https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps">this guide</a>.</p>
+<h2 id="server-side-youtube-upload">Server Side youtube upload</h2>
+<p>To upload youtube videos as a server, you need to follow <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps">this guide</a>.</p>
+<h2 id="getting-a-youtube-api-key">Getting a youtube api key</h2>
+<ol>
+<li>First, you need to go to <a href="https://console.developers.google.com/apis/library">this website</a></li>
+<li>If prompted, select a project, or create a new one.</li>
+<li>Use the Library page to find and enable the YouTube Data API v3. </li>
+<li>Go to the <a href="https://console.developers.google.com/apis/credentials">credentials page</a></li>
+<li>Click Create credentials &gt; OAuth client ID</li>
+<li>Select the Web application app type</li>
+<li>Fill in the form and click create. For testing redirect URIs that refer to the local machine with http://localhost:8080 </li>
+<li>Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class <code>YouTubeUploader</code> is being initialized.</li>
+<li>Get your client_id and client_secret</li>
+</ol>
+<p>We recommend that you <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode">design your app's auth endpoints</a> so that your application does not expose authorization codes to other resources on the page.</p>
+<p>The key must have the scope 'https://www.googleapis.com/auth/youtube.upload'</p>
+<h2 id="usage-info">Usage Info</h2>
+<p>This module uploads a given video to a youtube channel, as such there are 2 things this module needs. 
+- A video
+- Video Options
+  - Title
+  - Description
+  - Tags
+  - Category
+  - Status
+  - DeclaredMadeForKids</p>
+<ul>
+<li>
+<p>A channel to upload to(In the form of a authentication file)</p>
+</li>
+<li>
+<p>The authentication file should contain the following:</p>
+</li>
+<li>access_token: token_here</li>
+<li>refresh_token: token_here</li>
+<li>scope: scope_here</li>
+<li>token_type: Bearer</li>
+<li>expires_in: 3599</li>
+</ul>
+<p>This file should be called client_secrets.sjon and exist in the directory this script is.</p>
+<h2 id="usage">Usage</h2>
+<pre><code class="language-python"># youtube upload api
+from youtube_upload.client import YouTubeUploader
+
+uploader = YoutubeUploader(client_id,client_secret)
+uploader.authenticate()
+
+# Video options
+options = {
+    title : &quot;Example title&quot;,
+    description : &quot;Example description&quot;,
+    tags : [&quot;tag1&quot;, &quot;tag2&quot;, &quot;tag3&quot;],
+    categoryId : &quot;22&quot;,
+    privacyStatus : &quot;private&quot;,
+    kids : False
+    thumbnailLink : &quot;https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg&quot;
+}
+
+# upload video
+uploader.upload(file_path, options) 
+</code></pre>
                 
               
               
