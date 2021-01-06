@@ -1,3 +1,5 @@
+![Build Docs](https://github.com/pillargg/youtube-upload/workflows/Build%20Docs/badge.svg?branch=master) ![Upload Python Package](https://github.com/pillargg/youtube-upload/workflows/Upload%20Python%20Package/badge.svg?branch=master)
+
 # PillarGG YouTube Uploader
 Upload Youtube Videos and more via Python.
 
