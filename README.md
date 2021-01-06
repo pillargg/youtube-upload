@@ -2,7 +2,7 @@
 Upload Youtube Videos and more via Python.
 
 # Getting Started
-`pip install --user youtube-upload`
+`pip install pillar-youtube-upload`
 
 This project uses the [Youtube Data API](https://developers.google.com/youtube/v3/docs/videos/insert)
 
