@@ -59,9 +59,9 @@ This file should be called client_secrets.sjon and exist in the directory this s
 
 ```python
 # youtube upload api
-import pillar-youtube-upload
+import youtube_upload
 
-uploader = pillar_youtube_upload.YoutubeUploader(client_id,client_secret)
+uploader = youtube_upload.YoutubeUploader(client_id,client_secret)
 ```
 
 ```python
