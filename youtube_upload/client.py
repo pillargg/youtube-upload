@@ -71,6 +71,9 @@ class YoutubeUploader():
     # This is if you have another OAuth file to use
     def authenticate(self, oauth_path='oauth.json'):
         '''
+        This method authenticates the user with Google's servers. If you give no path, the method will look for the `oauth.json` file in the current working directory.
+
+        If a path is given, and the file does not exist at that path, the file will be created at that path. If the file does exist at the given path, it will be used.
         '''
         self.flow = flow_from_clientsecrets(
             self.secrets_file,
@@ -90,6 +93,26 @@ class YoutubeUploader():
                 httplib2.Http()))
 
     def upload(self, file_path, options={}, chunksize=(-1)):
+        '''
+        This uploads the file to YouTube. The only required argument is the `file_path`, which is the path to the video to be uploaded. 
+
+        The `options` parameter is a dictionary of options. The items are pretty self explanatory, here is an example options dictionary:
+        ```Python
+        # Video options
+        options = {
+            title : "Example title",
+            description : "Example description",
+            tags : ["tag1", "tag2", "tag3"],
+            categoryId : "22",
+            privacyStatus : "private",
+            kids : False
+            thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
+        }
+        ```
+
+        Finally, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it 
+        will send the video in one large request. Set this to a different value if you are having issues with the upload failing. 
+        '''
         body = {
             'snippet': {
                 'title': options.get('title', 'Test Title'),
