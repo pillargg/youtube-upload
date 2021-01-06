@@ -4,7 +4,7 @@ with open('README.md') as readme:
     long_desc = readme.read()
 
 setuptools.setup(
-    name='youtube_upload',
+    name='youtube-upload',
     version='0.1.0',
     author="PillarGG",
     author_email='chandler@pillar.gg',
