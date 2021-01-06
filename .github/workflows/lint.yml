@@ -1,4 +1,4 @@
-name: Generate Documentation and Lint
+name: Lint
 
 on: [pull_request]
 
