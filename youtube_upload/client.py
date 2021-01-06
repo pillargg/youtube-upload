@@ -17,8 +17,14 @@ from youtube_upload import (MAX_RETRIES, MISSING_CLIENT_SECRETS_MESSAGE,
 
 
 class YoutubeUploader():
-    def __init__(self, client_id="", client_secret="", secrets_file_path=os.path.join('.', 'client_secrets.json')):
-        
+    def __init__(
+        self,
+        client_id="",
+        client_secret="",
+        secrets_file_path=os.path.join(
+            '.',
+            'client_secrets.json')):
+
         if client_id == "" or client_secret == "":
             self.secrets_file = secrets_file_path
         else:
@@ -41,15 +47,23 @@ class YoutubeUploader():
         self.max_retry = MAX_RETRIES
 
     def authenticate(self):
-        self.flow = flow_from_clientsecrets(self.secrets_file, scope=YOUTUBE_UPLOAD_SCOPE, message=MISSING_CLIENT_SECRETS_MESSAGE)
+        self.flow = flow_from_clientsecrets(
+            self.secrets_file,
+            scope=YOUTUBE_UPLOAD_SCOPE,
+            message=MISSING_CLIENT_SECRETS_MESSAGE)
         storage = Storage('oauth.json')
         self.credentials = storage.get()
 
         if self.credentials is None or self.credentials.invalid:
-            self.credentials = run_flow(self.flow, storage) # this will have to be changed for auth purposes
+            # this will have to be changed for auth purposes
+            self.credentials = run_flow(self.flow, storage)
 
-        self.youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, http=self.credentials.authorize(httplib2.Http()))
-        
+        self.youtube = build(
+            YOUTUBE_API_SERVICE_NAME,
+            YOUTUBE_API_VERSION,
+            http=self.credentials.authorize(
+                httplib2.Http()))
+
     def upload(self, file_path, options={}, chunksize=(-1)):
         body = {
             'snippet': {
@@ -65,18 +79,20 @@ class YoutubeUploader():
         }
 
         insert_request = self.youtube.videos().insert(
-            part=",".join(list(body.keys())),
-            body=body,
-            media_body=MediaFileUpload(file_path, chunksize=chunksize, resumable=True)
-        )
+            part=",".join(
+                list(
+                    body.keys())), body=body, media_body=MediaFileUpload(
+                file_path, chunksize=chunksize, resumable=True))
 
-        self._resumable_upload(insert_request, bool(options.get('thumbnailLink')), options)
+        self._resumable_upload(
+            insert_request, bool(
+                options.get('thumbnailLink')), options)
 
     def _resumable_upload(self, insert_request, uploadThumbnail, options):
         response = None
         error = None
         retry = 0
-        
+
         while response is None:
             try:
                 _, response = insert_request.next_chunk()
@@ -84,22 +100,21 @@ class YoutubeUploader():
                     video_id = response.get('id')
                     if uploadThumbnail:
                         request = self.youtube.thumbnails().set(
-                            videoId=video_id,
-                            media_body=MediaFileUpload(options.get('thumbnailLink'))
-                        )
+                            videoId=video_id, media_body=MediaFileUpload(
+                                options.get('thumbnailLink')))
                         response = request.execute()
                         print(response)
                 else:
                     raise HttpError(f'Unexpected response: {response}')
             except HttpError as e:
                 if e.resp.status in RETRYABLE_STATUS_CODES:
-                    error = "A retryable HTTP error %d occurred:\n%s" % (e.resp.status,
-                                                                     e.content)
+                    error = "A retryable HTTP error %d occurred:\n%s" % (
+                        e.resp.status, e.content)
                 else:
                     raise
             except RETRYABLE_EXCEPTIONS as e:
                 error = "A retryable error occurred: %s" % e
-            
+
             if error is not None:
                 print(error)
                 retry += 1

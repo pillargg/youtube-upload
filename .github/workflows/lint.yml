@@ -16,7 +16,7 @@ jobs:
         pip install --no-cache-dir autopep8
     - name: Run AutoPEP8
       run: |
-        autopep8 -r --in-place --aggressive --aggressive src
+        autopep8 -r --in-place --aggressive --aggressive .
     - name: Commit and Push changes
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -27,7 +27,7 @@ jobs:
         if [ -n "$(git status --porcelain)" ]; then
           echo "there are changes";
           git add -A
-          git commit -m "[bot] Update documentation and lint files"
+          git commit -m "[bot] Lint files"
           git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git" ${{ github.head_ref }}
         else
           echo "no changes";
