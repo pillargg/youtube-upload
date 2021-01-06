@@ -219,6 +219,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.authenticate" class="md-nav__link">
+    authenticate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.upload" class="md-nav__link">
+    upload()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -255,6 +276,27 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.authenticate" class="md-nav__link">
+    authenticate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.upload" class="md-nav__link">
+    upload()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -274,19 +316,76 @@
 <h2 class="hidden-toc" href="#youtube_upload.client.YoutubeUploader" id="youtube_upload.client.YoutubeUploader" style="visibility: hidden; position: absolute;">
         </h2>
 <div class="doc doc-contents first">
+<p>The YouTube Uploader client.</p>
 <div class="doc doc-children">
+<div class="doc doc-object doc-method">
+<h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.__init__">
+
+        <code class="highlight language-python">
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">secrets_file_path</span><span class="o">=</span><span class="s1">'./client_secrets.json'</span><span class="p">)</span>        </code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+      </h2>
+<div class="doc doc-contents ">
+<p>Initialization Function for the class. </p>
+<p>The variables <code>client_id</code> and <code>client_secret</code> can be passed in when the class is initialized, this will have the function generate the <code>client_secrets.json</code> file. </p>
+<p>If you do not pass the variables in, the class will look for a <code>client_secrets.json</code> file in the same direction in which the script is being initialized. You can instead
+pass in a directory to where the <code>client_secrets.json</code> is with the parameter <code>secrets_file_path</code> here is an example <code>client_secrets.json</code> file:</p>
+<pre><code class="language-json">{
+    "web": {
+    "client_id": "",
+    "client_secret": "",
+    "redirect_uris": [],
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token"
+    }
+}
+</code></pre>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.authenticate">
+
+        <code class="highlight language-python">
+authenticate<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth_path</span><span class="o">=</span><span class="s1">'oauth.json'</span><span class="p">)</span>        </code>
 
 
+      </h2>
+<div class="doc doc-contents ">
+<p>This method authenticates the user with Google's servers. If you give no path, the method will look for the <code>oauth.json</code> file in the current working directory.</p>
+<p>If a path is given, and the file does not exist at that path, the file will be created at that path. If the file does exist at the given path, it will be used.</p>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.upload">
+
+        <code class="highlight language-python">
+upload<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        </code>
 
 
-
-
-
-
-
-
-
-  </div>
+      </h2>
+<div class="doc doc-contents ">
+<p>This uploads the file to YouTube. The only required argument is the <code>file_path</code>, which is the path to the video to be uploaded. </p>
+<p>The <code>options</code> parameter is a dictionary of options. The items are pretty self explanatory, here is an example options dictionary:</p>
+<pre><code class="language-Python"># Video options
+options = {
+    title : "Example title",
+    description : "Example description",
+    tags : ["tag1", "tag2", "tag3"],
+    categoryId : "22",
+    privacyStatus : "private",
+    kids : False
+    thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
+}
+</code></pre>
+<p>Finally, <code>chunk_size</code> is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to <code>-1</code>, which is the default, it 
+will send the video in one large request. Set this to a different value if you are having issues with the upload failing. </p>
+</div>
+</div>
+</div>
 </div>
 </div>
                 
