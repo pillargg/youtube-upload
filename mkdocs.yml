@@ -6,6 +6,8 @@ theme:
     scheme: slate
     primary: indigo
     accent: blue
+  logo: pillargg.png
+  favicon: pillargg.png
 
 plugins:
 - search
