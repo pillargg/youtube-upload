@@ -1,6 +1,7 @@
 import json
 import os
 import time
+import uuid
 
 import httplib2
 from googleapiclient.discovery import build
@@ -14,11 +15,14 @@ from youtube_upload import (MAX_RETRIES, MISSING_CLIENT_SECRETS_MESSAGE,
                             RETRYABLE_EXCEPTIONS, RETRYABLE_STATUS_CODES,
                             VALID_PRIVACY_STATUSES, YOUTUBE_API_SERVICE_NAME,
                             YOUTUBE_API_VERSION, YOUTUBE_UPLOAD_SCOPE)
+from youtube_upload.oauth_template import oauth_template
 
 
 class YoutubeUploader():
     '''
     The YouTube Uploader client.
+
+    When using in a multithreaded environment, please create a new instance of the `YoutubeUploader` class per thread.
     '''
 
     def __init__(
@@ -47,43 +51,80 @@ class YoutubeUploader():
         }
         ```
         '''
+
+        self.client_secrets = {}
         if client_id == "" or client_secret == "":
             self.secrets_file = secrets_file_path
+            try:
+                with open(secrets_file_path) as f:
+                    self.client_secrets = json.loads(f.read())
+            except FileNotFoundError:
+                raise
         else:
-            client_secrets = {
-                'redirect_uris': [],
-                'auth_uri': 'https://accounts.google.com/o/oauth2/auth',
-                'token_uri': 'https://accounts.google.com/o/oauth2/token',
-                'client_id': client_id,
-                'client_secret': client_secret
+            self.client_secrets = {
+                'web': {
+                    'redirect_uris': [],
+                    'auth_uri': 'https://accounts.google.com/o/oauth2/auth',
+                    'token_uri': 'https://accounts.google.com/o/oauth2/token',
+                    'client_id': client_id,
+                    'client_secret': client_secret
+                }
             }
             with open(secrets_file_path, 'w') as f:
-                f.write(json.dumps(client_secrets))
+                f.write(json.dumps(self.client_secrets))
             self.secrets_file = secrets_file_path
 
         self.youtube = None
         self.options = None
         self.flow = None
         self.credentials = None
+        self.oauth_path = 'oauth.json'
 
         self.max_retry = MAX_RETRIES
 
+    def __del__(self):
+        self.close()
+
     # This is if you have another OAuth file to use
-    def authenticate(self, oauth_path='oauth.json'):
+    def authenticate(self, oauth_path='oauth.json', access_token=None, refresh_token=None):
         '''
         This method authenticates the user with Google's servers. If you give no path, the method will look for the `oauth.json` file in the current working directory.
 
         If a path is given, and the file does not exist at that path, the file will be created at that path. If the file does exist at the given path, it will be used.
+
+        If in the case that you do not have an OAuth JSON file, you can specify an access and refresh token via the `access_token` and `refresh_token` parameters.
+
         '''
+
+        self.oauth_path = oauth_path
+        # If access_token and refresh_token is provided, create new oauth.json
+        if access_token is not None and refresh_token is not None:
+            if '.json' not in oauth_path and os.path.isdir(oauth_path):
+                # https://stackoverflow.com/questions/2961509/python-how-to-create-a-unique-file-name
+                self.oauth_path = os.path.join(
+                    oauth_path, str(uuid.uuid4()) + '.json')
+            else:
+                self.oauth_path = str(uuid.uuid4()) + '.json'
+            subs = {
+                'access_token': access_token,
+                'refresh_token': refresh_token,
+                'client_id': self.client_secrets['web'].get('client_id'),
+                'client_secret': self.client_secrets['web'].get('client_secret')
+            }
+            oauth_json_str = oauth_template.substitute(subs)
+            with open(self.oauth_path, 'w') as f:
+                f.write(oauth_json_str)
+
         self.flow = flow_from_clientsecrets(
             self.secrets_file,
             scope=YOUTUBE_UPLOAD_SCOPE,
             message=MISSING_CLIENT_SECRETS_MESSAGE)
-        storage = Storage(oauth_path)
+        storage = Storage(self.oauth_path)
         self.credentials = storage.get()
 
+        # Catches the edge case where no credentials were provided
         if self.credentials is None or self.credentials.invalid:
-            # this will have to be changed for auth purposes
+            # this wil only run if there is no callback function
             self.credentials = run_flow(self.flow, storage)
 
         self.youtube = build(
@@ -92,7 +133,7 @@ class YoutubeUploader():
             http=self.credentials.authorize(
                 httplib2.Http()))
 
-    def upload(self, file_path, options={}, chunksize=(-1)):
+    def upload(self, file_path, options={}, chunksize=(-1), noauth_callback=None, noauth_args=None):
         '''
         This uploads the file to YouTube. The only required argument is the `file_path`, which is the path to the video to be uploaded. 
 
@@ -110,8 +151,30 @@ class YoutubeUploader():
         }
         ```
 
-        Finally, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it 
+        The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it 
         will send the video in one large request. Set this to a different value if you are having issues with the upload failing. 
+
+        You can also add a callback function for the case where the upload were to fail. This is mainly for custom error handling and prompting users to re-authenticate. 
+
+        The callback function is the parameter `noauth_callback`. The function passed should be able to accept a tuple of arguments. The parameter `noauth_args` is the arguments for the function. Here 
+        is an example of the callback function being used.
+
+        ```Python
+        from youtube_upload.client import YoutubeUploader
+
+        def callback(*args):
+            print(args[0], args[1])
+
+        with YoutubeUploader() as youtube:
+            youtube.authenticate()
+            youtube.upload("test.mp4", noauth_callback=callback, noauth_args=("It failed."))
+        ```
+
+        And here is the example output in the case that the upload would fail.
+
+        ```
+        It failed. invalid_grant: Bad Request
+        ```
         '''
         body = {
             'snippet': {
@@ -126,15 +189,18 @@ class YoutubeUploader():
             }
         }
 
-        insert_request = self.youtube.videos().insert(
-            part=",".join(
-                list(
-                    body.keys())), body=body, media_body=MediaFileUpload(
-                file_path, chunksize=chunksize, resumable=True))
+        try:
+            insert_request = self.youtube.videos().insert(
+                part=",".join(
+                    list(
+                        body.keys())), body=body, media_body=MediaFileUpload(
+                    file_path, chunksize=chunksize, resumable=True))
 
-        self._resumable_upload(
-            insert_request, bool(
-                options.get('thumbnailLink')), options)
+            self._resumable_upload(
+                insert_request, bool(
+                    options.get('thumbnailLink')), options)
+        except Exception as e:
+            noauth_callback(noauth_args, e)
 
     def _resumable_upload(self, insert_request, uploadThumbnail, options):
         response = None
@@ -171,3 +237,10 @@ class YoutubeUploader():
 
                 print("Sleeping 5 seconds and then retrying...")
                 time.sleep(5)
+
+    def close(self):
+        '''
+        Tears down and closes the class cleanly.
+        '''
+        if os.path.exists(self.oauth_path):
+            os.remove(self.oauth_path)
