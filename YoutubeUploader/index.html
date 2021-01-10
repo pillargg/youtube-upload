@@ -9,7 +9,7 @@
       
       
       
-      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <link rel="shortcut icon" href="../pillargg.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
     
     
@@ -77,8 +77,7 @@
   <nav class="md-header-nav md-grid" aria-label="Header">
     <a href=".." title="Pillar Youtube Uploader" class="md-header-nav__button md-logo" aria-label="Pillar Youtube Uploader">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="../pillargg.png" alt="logo">
 
     </a>
     <label class="md-header-nav__button md-icon" for="__drawer">
@@ -157,8 +156,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Pillar Youtube Uploader" class="md-nav__button md-logo" aria-label="Pillar Youtube Uploader">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="../pillargg.png" alt="logo">
 
     </a>
     Pillar Youtube Uploader
@@ -234,6 +232,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.close" class="md-nav__link">
+    close()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#youtube_upload.client.YoutubeUploader.upload" class="md-nav__link">
     upload()
   </a>
@@ -291,6 +296,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.close" class="md-nav__link">
+    close()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#youtube_upload.client.YoutubeUploader.upload" class="md-nav__link">
     upload()
   </a>
@@ -317,6 +329,7 @@
         </h2>
 <div class="doc doc-contents first">
 <p>The YouTube Uploader client.</p>
+<p>When using in a multithreaded environment, please create a new instance of the <code>YoutubeUploader</code> class per thread.</p>
 <div class="doc doc-children">
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.__init__">
@@ -350,20 +363,33 @@ pass in a directory to where the <code>client_secrets.json</code> is with the pa
 <h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.authenticate">
 
         <code class="highlight language-python">
-authenticate<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth_path</span><span class="o">=</span><span class="s1">'oauth.json'</span><span class="p">)</span>        </code>
+authenticate<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oauth_path</span><span class="o">=</span><span class="s1">'oauth.json'</span><span class="p">,</span> <span class="n">access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">refresh_token</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
 
 
       </h2>
 <div class="doc doc-contents ">
 <p>This method authenticates the user with Google's servers. If you give no path, the method will look for the <code>oauth.json</code> file in the current working directory.</p>
 <p>If a path is given, and the file does not exist at that path, the file will be created at that path. If the file does exist at the given path, it will be used.</p>
+<p>If in the case that you do not have an OAuth JSON file, you can specify an access and refresh token via the <code>access_token</code> and <code>refresh_token</code> parameters.</p>
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.close">
+
+        <code class="highlight language-python">
+close<span class="p">(</span><span class="bp">self</span><span class="p">)</span>        </code>
+
+
+      </h2>
+<div class="doc doc-contents ">
+<p>Tears down and closes the class cleanly.</p>
 </div>
 </div>
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.upload">
 
         <code class="highlight language-python">
-upload<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        </code>
+upload<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">noauth_callback</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">noauth_args</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        </code>
 
 
       </h2>
@@ -381,8 +407,23 @@ options = {
     thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
 }
 </code></pre>
-<p>Finally, <code>chunk_size</code> is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to <code>-1</code>, which is the default, it 
+<p>The parameter, <code>chunk_size</code> is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to <code>-1</code>, which is the default, it 
 will send the video in one large request. Set this to a different value if you are having issues with the upload failing. </p>
+<p>You can also add a callback function for the case where the upload were to fail. This is mainly for custom error handling and prompting users to re-authenticate. </p>
+<p>The callback function is the parameter <code>noauth_callback</code>. The function passed should be able to accept a tuple of arguments. The parameter <code>noauth_args</code> is the arguments for the function. Here 
+is an example of the callback function being used.</p>
+<pre><code class="language-Python">from youtube_upload.client import YoutubeUploader
+
+def callback(*args):
+    print(args[0], args[1])
+
+with YoutubeUploader() as youtube:
+    youtube.authenticate()
+    youtube.upload("test.mp4", noauth_callback=callback, noauth_args=("It failed."))
+</code></pre>
+<p>And here is the example output in the case that the upload would fail.</p>
+<pre><code>It failed. invalid_grant: Bad Request
+</code></pre>
 </div>
 </div>
 </div>
