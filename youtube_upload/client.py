@@ -133,7 +133,7 @@ class YoutubeUploader():
             http=self.credentials.authorize(
                 httplib2.Http()))
 
-    def upload(self, file_path, options={}, chunksize=(-1), noauth_callback=None, noauth_args=None):
+    def upload(self, file_path, options={}, chunksize=(-1)):
         '''
         This uploads the file to YouTube. The only required argument is the `file_path`, which is the path to the video to be uploaded. 
 
@@ -189,18 +189,15 @@ class YoutubeUploader():
             }
         }
 
-        try:
-            insert_request = self.youtube.videos().insert(
-                part=",".join(
-                    list(
-                        body.keys())), body=body, media_body=MediaFileUpload(
-                    file_path, chunksize=chunksize, resumable=True))
+        insert_request = self.youtube.videos().insert(
+            part=",".join(
+                list(
+                    body.keys())), body=body, media_body=MediaFileUpload(
+                file_path, chunksize=chunksize, resumable=True))
 
-            self._resumable_upload(
-                insert_request, bool(
-                    options.get('thumbnailLink')), options)
-        except Exception as e:
-            noauth_callback(noauth_args, e)
+        self._resumable_upload(
+            insert_request, bool(
+                options.get('thumbnailLink')), options)
 
     def _resumable_upload(self, insert_request, uploadThumbnail, options):
         response = None
