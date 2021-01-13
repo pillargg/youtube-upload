@@ -5,6 +5,8 @@ Upload Youtube Videos and more via Python.
 
 # Getting Started
 
+![](https://thumbs.gfycat.com/ConventionalSecondhandGemsbuck-size_restricted.gif)
+
 `pip install pillar-youtube-upload`
 
 You can read more [below](https://github.com/pillargg/youtube-upload#usage) and on the [docs](https://pillargg.github.io/youtube-upload/YoutubeUploader/).
