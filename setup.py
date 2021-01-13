@@ -7,7 +7,7 @@ setuptools.setup(
     name='pillar-youtube-upload',
     version='0.2.2',
     author="PillarGG",
-    author_email='chandler@pillar.gg',
+    author_email='opensource@pillar.gg',
     description='Upload YouTube videos from Python and more.',
     long_description=long_desc,
     long_description_content_type="text/markdown",
