@@ -5,7 +5,7 @@ with open('README.md') as readme:
 
 setuptools.setup(
     name='pillar-youtube-upload',
-    version='0.2.2',
+    version='0.2.3',
     author="PillarGG",
     author_email='opensource@pillar.gg',
     description='Upload YouTube videos from Python and more.',
