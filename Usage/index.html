@@ -9,19 +9,19 @@
       
       
       
-      <link rel="shortcut icon" href="pillargg.png">
+      <link rel="shortcut icon" href="../pillargg.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
     
     
       
-        <title>Pillar Youtube Uploader</title>
+        <title>Usage - Pillar Youtube Uploader</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.3b61ea93.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.3b61ea93.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.39b8e14a.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
         
           
           
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pillargg-youtube-uploader" class="md-skip">
+        <a href="#usage-info" class="md-skip">
           Skip to content
         </a>
       
@@ -75,9 +75,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="." title="Pillar Youtube Uploader" class="md-header-nav__button md-logo" aria-label="Pillar Youtube Uploader">
+    <a href=".." title="Pillar Youtube Uploader" class="md-header-nav__button md-logo" aria-label="Pillar Youtube Uploader">
       
-  <img src="pillargg.png" alt="logo">
+  <img src="../pillargg.png" alt="logo">
 
     </a>
     <label class="md-header-nav__button md-icon" for="__drawer">
@@ -93,7 +93,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Home
+              Usage
             
           </span>
         </div>
@@ -167,9 +167,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Pillar Youtube Uploader" class="md-nav__button md-logo" aria-label="Pillar Youtube Uploader">
+    <a href=".." title="Pillar Youtube Uploader" class="md-nav__button md-logo" aria-label="Pillar Youtube Uploader">
       
-  <img src="pillargg.png" alt="logo">
+  <img src="../pillargg.png" alt="logo">
 
     </a>
     Pillar Youtube Uploader
@@ -195,6 +195,19 @@
       
 
 
+
+  <li class="md-nav__item">
+    <a href=".." class="md-nav__link">
+      Home
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
   
 
 
@@ -205,23 +218,10 @@
       
     
     
-    <a href="." class="md-nav__link md-nav__link--active">
-      Home
-    </a>
-    
-  </li>
-
-    
-      
-      
-      
-
-
-
-  <li class="md-nav__item">
-    <a href="Usage/" class="md-nav__link">
+    <a href="./" class="md-nav__link md-nav__link--active">
       Usage
     </a>
+    
   </li>
 
     
@@ -232,7 +232,7 @@
 
 
   <li class="md-nav__item">
-    <a href="YoutubeUploader/" class="md-nav__link">
+    <a href="../YoutubeUploader/" class="md-nav__link">
       YoutubeUploader
     </a>
   </li>
@@ -266,39 +266,12 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/pillargg/youtube-upload/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/pillargg/youtube-upload/edit/master/docs/Usage.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <p><img alt="Build Docs" src="https://github.com/pillargg/youtube-upload/workflows/Build%20Docs/badge.svg?branch=master" /> <img alt="Upload Python Package" src="https://github.com/pillargg/youtube-upload/workflows/Upload%20Python%20Package/badge.svg" /></p>
-<h1 id="pillargg-youtube-uploader">PillarGG YouTube Uploader</h1>
-<p>Upload Youtube Videos and more via Python.</p>
-<h1 id="getting-started">Getting Started</h1>
-<p><img alt="" src="https://thumbs.gfycat.com/ConventionalSecondhandGemsbuck-size_restricted.gif" /></p>
-<p><code>pip install pillar-youtube-upload</code></p>
-<p>You can read more <a href="https://github.com/pillargg/youtube-upload#usage">below</a> and on the <a href="https://pillargg.github.io/youtube-upload/YoutubeUploader/">docs</a>.</p>
-<p>This project uses the <a href="https://developers.google.com/youtube/v3/docs/videos/insert">Youtube Data API</a>.</p>
-<p>All implementations of youtube upload needs some form of <a href="https://developers.google.com/youtube/v3/guides/authentication">authentication</a>.</p>
-<h2 id="client-side-youtube-upload">Client Side youtube upload</h2>
-<p>To upload youtube videos as a client, you need to follow <a href="https://developers.google.com/youtube/v3/guides/auth/client-side-web-apps">this guide</a>.</p>
-<h2 id="server-side-youtube-upload">Server Side youtube upload</h2>
-<p>To upload youtube videos as a server, you need to follow <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps">this guide</a>.</p>
-<h2 id="getting-a-youtube-api-key">Getting a youtube api key</h2>
-<ol>
-<li>First, you need to go to <a href="https://console.developers.google.com/apis/library">this website</a>.</li>
-<li>If prompted, select a project, or create a new one.</li>
-<li>Use the Library page to find and enable the YouTube Data API v3. </li>
-<li>Go to the <a href="https://console.developers.google.com/apis/credentials">credentials page</a>.</li>
-<li>Click <code>Create Credentials &gt; OAuth client ID</code>.</li>
-<li>Select the Web application app type.</li>
-<li>Fill in the form and click create. For testing redirect URIs that refer to the local machine with <code>http://localhost:8080</code>. </li>
-<li>Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class <code>YouTubeUploader</code> is being initialized.</li>
-<li>Get your <code>client_id</code> and <code>client_secret</code>.</li>
-</ol>
-<p>We recommend that you <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode">design your app's auth endpoints</a> so that your application does not expose authorization codes to other resources on the page.</p>
-<p>The key must have the scope 'https://www.googleapis.com/auth/youtube.upload'.</p>
-<h2 id="usage-info">Usage Info</h2>
+                <h2 id="usage-info">Usage Info</h2>
 <p>The variables <code>client_id</code> and <code>client_secret</code> are how Google identify your application. These are specified in the initialization parameters or in the <code>client_secrets.json</code> file.
 The variables <code>access_token</code> and <code>refresh_token</code> are how Google's APIs differentiate between different YouTube channels. These are specified in the authenticate method.</p>
 <p>This module uploads a given video to a youtube channel, as such there are 2 things this module needs. 
@@ -324,7 +297,7 @@ The variables <code>access_token</code> and <code>refresh_token</code> are how G
 <li>expires_in: 3599</li>
 </ul>
 <p>This file should be called client_secrets.json and exist in the directory this script is.</p>
-<h1 id="usage">Usage</h1>
+<h1 id="quick-start">Quick Start</h1>
 <h3 id="0-importing-the-package">0. Importing the package</h3>
 <pre><code class="language-python"># youtube upload api
 from youtube_upload.client import YouTubeUploader
@@ -388,14 +361,28 @@ uploader.upload(file_path, options)
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
+          <a href=".." class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Home
+              </div>
+            </div>
+          </a>
         
-          <a href="Usage/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+        
+          <a href="../YoutubeUploader/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Usage
+                YoutubeUploader
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
@@ -422,15 +409,15 @@ uploader.upload(file_path, options)
       
     </div>
     
-      <script src="assets/javascripts/vendor.08c56446.min.js"></script>
-      <script src="assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="../assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="../assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
-          base: ".",
+          base: "..",
           features: [],
           search: Object.assign({
-            worker: "assets/javascripts/worker/search.8c7e0a7e.min.js"
+            worker: "../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
