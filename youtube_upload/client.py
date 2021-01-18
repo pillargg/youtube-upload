@@ -140,7 +140,7 @@ class YoutubeUploader():
             http=self.credentials.authorize(
                 httplib2.Http()))
 
-    def upload(self, file_path, options={}, chunksize=(-1)):
+    def upload(self, file_path, options=None, chunksize=(-1)):
         '''
         This uploads the file to YouTube. The only required argument is the `file_path`, which is the path to the video to be uploaded. 
 
@@ -183,6 +183,8 @@ class YoutubeUploader():
         It failed. invalid_grant: Bad Request
         ```
         '''
+        if options is None:
+            options = {}
         body = {
             'snippet': {
                 'title': options.get('title', 'Test Title'),
