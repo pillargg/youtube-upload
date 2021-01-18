@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 import time
 import uuid
 
@@ -239,7 +240,7 @@ class YoutubeUploader():
                 print(error)
                 retry += 1
                 if retry > self.max_retry:
-                    exit("No longer attempting to retry.")
+                    sys.exit("No longer attempting to retry.")
 
                 print("Sleeping 5 seconds and then retrying...")
                 time.sleep(5)
