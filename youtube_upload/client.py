@@ -62,11 +62,8 @@ class YoutubeUploader():
         self.client_secrets = {}
         if client_id is None or client_secret is None:
             self.secrets_file = secrets_file_path
-            try:
-                with open(secrets_file_path) as f:
-                    self.client_secrets = json.loads(f.read())
-            except FileNotFoundError:
-                raise
+            with open(secrets_file_path) as f:
+                self.client_secrets = json.loads(f.read())
         else:
             self.client_secrets = {
                 'web': {
@@ -228,7 +225,7 @@ class YoutubeUploader():
                         response = request.execute()
                         print(response)
                 else:
-                    raise HttpError(f'Unexpected response: {response}')
+                    raise HttpError(f'Unexpected response: {response}') # skipcq: PYL-E1120
             except HttpError as e:
                 if e.resp.status in RETRYABLE_STATUS_CODES:
                     error = "A retryable HTTP error %d occurred:\n%s" % (
