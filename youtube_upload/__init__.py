@@ -22,6 +22,7 @@ RETRYABLE_EXCEPTIONS = (
 RETRYABLE_STATUS_CODES = [500, 502, 503, 504]
 
 CLIENT_SECRETS_FILE = 'client_secrets.json'
+OAUTH_FILE = 'oauth.json'
 
 YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 YOUTUBE_API_SERVICE_NAME = "youtube"

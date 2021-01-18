@@ -11,27 +11,34 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import run_flow
 
-from youtube_upload import (MAX_RETRIES, MISSING_CLIENT_SECRETS_MESSAGE,
-                            RETRYABLE_EXCEPTIONS, RETRYABLE_STATUS_CODES,
-                            VALID_PRIVACY_STATUSES, YOUTUBE_API_SERVICE_NAME,
-                            YOUTUBE_API_VERSION, YOUTUBE_UPLOAD_SCOPE)
+from youtube_upload import CLIENT_SECRETS_FILE
+from youtube_upload import MAX_RETRIES
+from youtube_upload import MISSING_CLIENT_SECRETS_MESSAGE
+from youtube_upload import OAUTH_FILE
+from youtube_upload import RETRYABLE_EXCEPTIONS
+from youtube_upload import RETRYABLE_STATUS_CODES
+from youtube_upload import VALID_PRIVACY_STATUSES
+from youtube_upload import YOUTUBE_API_SERVICE_NAME
+from youtube_upload import YOUTUBE_API_VERSION
+from youtube_upload import YOUTUBE_UPLOAD_SCOPE
+
 from youtube_upload.oauth_template import oauth_template
 
 
 class YoutubeUploader():
     '''
-    The YouTube Uploader client.
+    The YouTube Uploader service.
 
     When using in a multithreaded environment, please create a new instance of the `YoutubeUploader` class per thread.
     '''
 
     def __init__(
         self,
-        client_id="",
-        client_secret="",
+        client_id=None,
+        client_secret=None,
         secrets_file_path=os.path.join(
             '.',
-            'client_secrets.json')):
+            CLIENT_SECRETS_FILE)):
         '''
         Initialization Function for the class. 
 
@@ -53,7 +60,7 @@ class YoutubeUploader():
         '''
 
         self.client_secrets = {}
-        if client_id == "" or client_secret == "":
+        if client_id is None or client_secret is None:
             self.secrets_file = secrets_file_path
             try:
                 with open(secrets_file_path) as f:
@@ -78,7 +85,7 @@ class YoutubeUploader():
         self.options = None
         self.flow = None
         self.credentials = None
-        self.oauth_path = 'oauth.json'
+        self.oauth_path = OAUTH_FILE
 
         self.max_retry = MAX_RETRIES
 
@@ -86,7 +93,7 @@ class YoutubeUploader():
         self.close()
 
     # This is if you have another OAuth file to use
-    def authenticate(self, oauth_path='oauth.json', access_token=None, refresh_token=None):
+    def authenticate(self, oauth_path=OAUTH_FILE, access_token=None, refresh_token=None):
         '''
         This method authenticates the user with Google's servers. If you give no path, the method will look for the `oauth.json` file in the current working directory.
 
