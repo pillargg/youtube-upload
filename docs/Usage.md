@@ -27,13 +27,13 @@ This file should be called client_secrets.json and exist in the directory this s
 
 # Quick Start
 
-### 0. Importing the package 
+## 0. Importing the package 
 ```python
 # youtube upload api
 from youtube_upload.client import YouTubeUploader
 ```
 
-### 1. Instantiating an uploader
+## 1. Instantiating an uploader
 ```python
 uploader = YoutubeUploader(client_id,client_secret)
 ```
@@ -48,7 +48,7 @@ uploader = YoutubeUploader(secrets_file_path=secrets_file_path_here)
 ```
 You can specify the path to the file with the [`secrets_file_path`](https://pillargg.github.io/youtube-upload/YoutubeUploader/#youtube_upload.client.YoutubeUploader) parameter.
 
-### 2. Authentication
+## 2. Authentication
 
 If you run [`authenticate`](https://pillargg.github.io/youtube-upload/YoutubeUploader/#youtube_upload.client.YoutubeUploader.authenticate) with no parameters and no `oauth.json`, it opens a web page locally that you can use to sign into the YouTube Channel you want to upload the video to. 
 
@@ -65,7 +65,7 @@ uploader.authenticate(access_token=access_token_here, refresh_token=refresh_toke
 uploader.authenticate(oauth_path='oauth.json')
 ```
 
-### 3. Uploading the video
+## 3. Uploading the video
 ```python
 
 # Video options
@@ -83,7 +83,7 @@ options = {
 uploader.upload(file_path, options) 
 ```
 Parameter `tags` should be list of strings only. The parameter `categoryId` refers to YouTube internal categories, more information can be found [here](https://stackoverflow.com/questions/17698040/youtube-api-v3-where-can-i-find-a-list-of-each-videocategoryid). 
-### 4. Closing the uploader
+## 4. Closing the uploader
 ```python
 uploader.close()
 ```
