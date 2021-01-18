@@ -40,9 +40,9 @@ class YoutubeUploader():
             '.',
             CLIENT_SECRETS_FILE)):
         '''
-        Initialization Function for the class. 
+        Initialization Function for the class.
 
-        The variables `client_id` and `client_secret` can be passed in when the class is initialized, this will have the function generate the `client_secrets.json` file. 
+        The variables `client_id` and `client_secret` can be passed in when the class is initialized, this will have the function generate the `client_secrets.json` file.
 
         If you do not pass the variables in, the class will look for a `client_secrets.json` file in the same direction in which the script is being initialized. You can instead
         pass in a directory to where the `client_secrets.json` is with the parameter `secrets_file_path` here is an example `client_secrets.json` file:
@@ -93,7 +93,11 @@ class YoutubeUploader():
         self.close()
 
     # This is if you have another OAuth file to use
-    def authenticate(self, oauth_path=OAUTH_FILE, access_token=None, refresh_token=None):
+    def authenticate(
+            self,
+            oauth_path=OAUTH_FILE,
+            access_token=None,
+            refresh_token=None):
         '''
         This method authenticates the user with Google's servers. If you give no path, the method will look for the `oauth.json` file in the current working directory.
 
@@ -116,8 +120,7 @@ class YoutubeUploader():
                 'access_token': access_token,
                 'refresh_token': refresh_token,
                 'client_id': self.client_secrets['web'].get('client_id'),
-                'client_secret': self.client_secrets['web'].get('client_secret')
-            }
+                'client_secret': self.client_secrets['web'].get('client_secret')}
             oauth_json_str = oauth_template.substitute(subs)
             with open(self.oauth_path, 'w') as f:
                 f.write(oauth_json_str)
@@ -140,9 +143,9 @@ class YoutubeUploader():
             http=self.credentials.authorize(
                 httplib2.Http()))
 
-    def upload(self, file_path, options={}, chunksize=(-1)):
+    def upload(self, file_path, options=None, chunksize=(-1)):
         '''
-        This uploads the file to YouTube. The only required argument is the `file_path`, which is the path to the video to be uploaded. 
+        This uploads the file to YouTube. The only required argument is the `file_path`, which is the path to the video to be uploaded.
 
         The `options` parameter is a dictionary of options. The items are pretty self explanatory, here is an example options dictionary:
         ```Python
@@ -158,12 +161,12 @@ class YoutubeUploader():
         }
         ```
 
-        The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it 
-        will send the video in one large request. Set this to a different value if you are having issues with the upload failing. 
+        The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it
+        will send the video in one large request. Set this to a different value if you are having issues with the upload failing.
 
-        You can also add a callback function for the case where the upload were to fail. This is mainly for custom error handling and prompting users to re-authenticate. 
+        You can also add a callback function for the case where the upload were to fail. This is mainly for custom error handling and prompting users to re-authenticate.
 
-        The callback function is the parameter `noauth_callback`. The function passed should be able to accept a tuple of arguments. The parameter `noauth_args` is the arguments for the function. Here 
+        The callback function is the parameter `noauth_callback`. The function passed should be able to accept a tuple of arguments. The parameter `noauth_args` is the arguments for the function. Here
         is an example of the callback function being used.
 
         ```Python
@@ -183,6 +186,8 @@ class YoutubeUploader():
         It failed. invalid_grant: Bad Request
         ```
         '''
+        if options is None:
+            options = {}
         body = {
             'snippet': {
                 'title': options.get('title', 'Test Title'),
