@@ -5,6 +5,5 @@ repos:
     rev: v1.5.4
     hooks:
     -   id: autopep8
-        args: ['-r', '--in-place', 'src']
-        exclude: |
-            (?x)(^src/video-output-util/)
+        args: ['-r', '--in-place', 'youtube_upload']
+       
