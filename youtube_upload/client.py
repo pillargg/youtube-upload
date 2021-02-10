@@ -226,7 +226,8 @@ class YoutubeUploader():
                         response = request.execute()
                         print(response)
                 else:
-                    raise HttpError(f'Unexpected response: {response}') # skipcq: PYL-E1120
+                    # skipcq: PYL-E1120
+                    raise HttpError(f'Unexpected response: {response}')
             except HttpError as e:
                 if e.resp.status in RETRYABLE_STATUS_CODES:
                     error = "A retryable HTTP error %d occurred:\n%s" % (
