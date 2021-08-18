@@ -31,7 +31,7 @@ To upload youtube videos as a server, you need to follow [this guide](https://de
 5. Click `Create Credentials > OAuth client ID`.
 6. Select the Web application app type.
 7. Fill in the form and click create. For testing redirect URIs that refer to the local machine with `http://localhost:8080`. 
-8. Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class `YouTubeUploader` is being initialized.
+8. Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class `YoutubeUploader` is being initialized.
 8. Get your `client_id` and `client_secret`.
 
 We recommend that you [design your app's auth endpoints](https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode) so that your application does not expose authorization codes to other resources on the page.
@@ -70,7 +70,7 @@ This file should be called client_secrets.json and exist in the directory this s
 ### 0. Importing the package 
 ```python
 # youtube upload api
-from youtube_upload.client import YouTubeUploader
+from youtube_upload.client import YoutubeUploader
 ```
 
 ### 1. Instantiating an uploader
