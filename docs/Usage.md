@@ -30,7 +30,7 @@ This file should be called client_secrets.json and exist in the directory this s
 ## 0. Importing the package 
 ```python
 # youtube upload api
-from youtube_upload.client import YouTubeUploader
+from youtube_upload.client import YoutubeUploader
 ```
 
 ## 1. Instantiating an uploader
