@@ -115,7 +115,7 @@ options = {
     "tags" : ["tag1", "tag2", "tag3"],
     "categoryId" : "22",
     "privacyStatus" : "private", # Video privacy. Can either be "public", "private", or "unlisted"
-    "kids" : False # Specifies if the Video if for kids or not. Defaults to False.
+    "kids" : False, # Specifies if the Video if for kids or not. Defaults to False.
     "thumbnailLink" : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg" # Optional. Specifies video thumbnail.
 }
 
