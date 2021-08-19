@@ -203,6 +203,7 @@ class YoutubeUploader():
         while response is None:
             try:
                 _, response = insert_request.next_chunk()
+                #skipcq: PYL-R1723
                 if 'id' in response:
                     video_id = response.get('id')
                     if uploadThumbnail:
@@ -228,6 +229,7 @@ class YoutubeUploader():
                 print(error)
                 retry += 1
                 if retry > self.max_retry:
+                    #skipcq: PYL-E1120
                     raise HttpError('Exceeded max retries. ' + error)
 
                 print("Sleeping 5 seconds and then retrying...")
