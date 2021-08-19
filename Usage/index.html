@@ -298,11 +298,11 @@ The variables <code>access_token</code> and <code>refresh_token</code> are how G
 </ul>
 <p>This file should be called client_secrets.json and exist in the directory this script is.</p>
 <h1 id="quick-start">Quick Start</h1>
-<h3 id="0-importing-the-package">0. Importing the package</h3>
+<h2 id="0-importing-the-package">0. Importing the package</h2>
 <pre><code class="language-python"># youtube upload api
-from youtube_upload.client import YouTubeUploader
+from youtube_upload.client import YoutubeUploader
 </code></pre>
-<h3 id="1-instantiating-an-uploader">1. Instantiating an uploader</h3>
+<h2 id="1-instantiating-an-uploader">1. Instantiating an uploader</h2>
 <pre><code class="language-python">uploader = YoutubeUploader(client_id,client_secret)
 </code></pre>
 <p><em>or</em></p>
@@ -313,7 +313,7 @@ from youtube_upload.client import YouTubeUploader
 <pre><code class="language-python">uploader = YoutubeUploader(secrets_file_path=secrets_file_path_here)
 </code></pre>
 <p>You can specify the path to the file with the <a href="https://pillargg.github.io/youtube-upload/YoutubeUploader/#youtube_upload.client.YoutubeUploader"><code>secrets_file_path</code></a> parameter.</p>
-<h3 id="2-authentication">2. Authentication</h3>
+<h2 id="2-authentication">2. Authentication</h2>
 <p>If you run <a href="https://pillargg.github.io/youtube-upload/YoutubeUploader/#youtube_upload.client.YoutubeUploader.authenticate"><code>authenticate</code></a> with no parameters and no <code>oauth.json</code>, it opens a web page locally that you can use to sign into the YouTube Channel you want to upload the video to. </p>
 <pre><code class="language-python">uploader.authenticate()
 </code></pre>
@@ -323,7 +323,7 @@ from youtube_upload.client import YouTubeUploader
 <p><em>OR</em></p>
 <pre><code class="language-python">uploader.authenticate(oauth_path='oauth.json')
 </code></pre>
-<h3 id="3-uploading-the-video">3. Uploading the video</h3>
+<h2 id="3-uploading-the-video">3. Uploading the video</h2>
 <pre><code class="language-python">
 # Video options
 options = {
@@ -340,7 +340,7 @@ options = {
 uploader.upload(file_path, options) 
 </code></pre>
 <p>Parameter <code>tags</code> should be list of strings only. The parameter <code>categoryId</code> refers to YouTube internal categories, more information can be found <a href="https://stackoverflow.com/questions/17698040/youtube-api-v3-where-can-i-find-a-list-of-each-videocategoryid">here</a>. </p>
-<h3 id="4-closing-the-uploader">4. Closing the uploader</h3>
+<h2 id="4-closing-the-uploader">4. Closing the uploader</h2>
 <pre><code class="language-python">uploader.close()
 </code></pre>
                 

@@ -293,7 +293,7 @@
 <li>Click <code>Create Credentials &gt; OAuth client ID</code>.</li>
 <li>Select the Web application app type.</li>
 <li>Fill in the form and click create. For testing redirect URIs that refer to the local machine with <code>http://localhost:8080</code>. </li>
-<li>Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class <code>YouTubeUploader</code> is being initialized.</li>
+<li>Download the client_secret.json file from the API Console and securely store the file in a location that only your application can access. By default, the application gets this file from the directory your script is being ran in. The path can also be changed when the class <code>YoutubeUploader</code> is being initialized.</li>
 <li>Get your <code>client_id</code> and <code>client_secret</code>.</li>
 </ol>
 <p>We recommend that you <a href="https://developers.google.com/youtube/v3/guides/auth/server-side-web-apps#protectauthcode">design your app's auth endpoints</a> so that your application does not expose authorization codes to other resources on the page.</p>
@@ -327,7 +327,7 @@ The variables <code>access_token</code> and <code>refresh_token</code> are how G
 <h1 id="usage">Usage</h1>
 <h3 id="0-importing-the-package">0. Importing the package</h3>
 <pre><code class="language-python"># youtube upload api
-from youtube_upload.client import YouTubeUploader
+from youtube_upload.client import YoutubeUploader
 </code></pre>
 <h3 id="1-instantiating-an-uploader">1. Instantiating an uploader</h3>
 <pre><code class="language-python">uploader = YoutubeUploader(client_id,client_secret)
@@ -359,7 +359,7 @@ options = {
     &quot;tags&quot; : [&quot;tag1&quot;, &quot;tag2&quot;, &quot;tag3&quot;],
     &quot;categoryId&quot; : &quot;22&quot;,
     &quot;privacyStatus&quot; : &quot;private&quot;, # Video privacy. Can either be &quot;public&quot;, &quot;private&quot;, or &quot;unlisted&quot;
-    &quot;kids&quot; : False # Specifies if the Video if for kids or not. Defaults to False.
+    &quot;kids&quot; : False, # Specifies if the Video if for kids or not. Defaults to False.
     &quot;thumbnailLink&quot; : &quot;https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg&quot; # Optional. Specifies video thumbnail.
 }
 

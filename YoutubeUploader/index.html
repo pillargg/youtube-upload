@@ -284,6 +284,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.upload_stream" class="md-nav__link">
+    upload_stream()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -348,6 +355,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#youtube_upload.client.YoutubeUploader.upload_stream" class="md-nav__link">
+    upload_stream()
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -371,14 +385,14 @@
 <h2 class="hidden-toc" href="#youtube_upload.client.YoutubeUploader" id="youtube_upload.client.YoutubeUploader" style="visibility: hidden; position: absolute;">
         </h2>
 <div class="doc doc-contents first">
-<p>The YouTube Uploader client.</p>
+<p>The YouTube Uploader service.</p>
 <p>When using in a multithreaded environment, please create a new instance of the <code>YoutubeUploader</code> class per thread.</p>
 <div class="doc doc-children">
 <div class="doc doc-object doc-method">
 <h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.__init__">
 
         <code class="highlight language-python">
-__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="s1">''</span><span class="p">,</span> <span class="n">secrets_file_path</span><span class="o">=</span><span class="s1">'./client_secrets.json'</span><span class="p">)</span>        </code>
+__init__<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">secrets_file_path</span><span class="o">=</span><span class="s1">'./client_secrets.json'</span><span class="p">)</span>        </code>
 
   <span class="doc doc-properties">
       <small class="doc doc-property doc-property-special"><code>special</code></small>
@@ -386,8 +400,8 @@ __init__<span class="p">(</span><span class="bp">self</span><span class="p">,</s
 
       </h2>
 <div class="doc doc-contents ">
-<p>Initialization Function for the class. </p>
-<p>The variables <code>client_id</code> and <code>client_secret</code> can be passed in when the class is initialized, this will have the function generate the <code>client_secrets.json</code> file. </p>
+<p>Initialization Function for the class.</p>
+<p>The variables <code>client_id</code> and <code>client_secret</code> can be passed in when the class is initialized, this will have the function generate the <code>client_secrets.json</code> file.</p>
 <p>If you do not pass the variables in, the class will look for a <code>client_secrets.json</code> file in the same direction in which the script is being initialized. You can instead
 pass in a directory to where the <code>client_secrets.json</code> is with the parameter <code>secrets_file_path</code> here is an example <code>client_secrets.json</code> file:</p>
 <pre><code class="language-json">{
@@ -432,12 +446,12 @@ close<span class="p">(</span><span class="bp">self</span><span class="p">)</span
 <h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.upload">
 
         <code class="highlight language-python">
-upload<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="p">{},</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        </code>
+upload<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        </code>
 
 
       </h2>
 <div class="doc doc-contents ">
-<p>This uploads the file to YouTube. The only required argument is the <code>file_path</code>, which is the path to the video to be uploaded. </p>
+<p>This uploads the file to YouTube. The only required argument is the <code>file_path</code>, which is the path to the video to be uploaded.</p>
 <p>The <code>options</code> parameter is a dictionary of options. The items are pretty self explanatory, here is an example options dictionary:</p>
 <pre><code class="language-Python"># Video options
 options = {
@@ -450,22 +464,55 @@ options = {
     thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
 }
 </code></pre>
-<p>The parameter, <code>chunk_size</code> is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to <code>-1</code>, which is the default, it 
-will send the video in one large request. Set this to a different value if you are having issues with the upload failing. </p>
-<p>You can also add a callback function for the case where the upload were to fail. This is mainly for custom error handling and prompting users to re-authenticate. </p>
-<p>The callback function is the parameter <code>noauth_callback</code>. The function passed should be able to accept a tuple of arguments. The parameter <code>noauth_args</code> is the arguments for the function. Here 
-is an example of the callback function being used.</p>
-<pre><code class="language-Python">from youtube_upload.client import YoutubeUploader
-
-def callback(*args):
-    print(args[0], args[1])
-
-with YoutubeUploader() as youtube:
-    youtube.authenticate()
-    youtube.upload("test.mp4", noauth_callback=callback, noauth_args=("It failed."))
+<p>The parameter, <code>chunk_size</code> is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to <code>-1</code>, which is the default, it
+will send the video in one large request. Set this to a different value if you are having issues with the upload failing.</p>
+<p>Will return the response from YouTube, as well as the response of the thumbnail upload as a tuple.</p>
+<pre><code class="language-Python">response, thumbnail_response = client.upload(file_path, options)
 </code></pre>
-<p>And here is the example output in the case that the upload would fail.</p>
-<pre><code>It failed. invalid_grant: Bad Request
+</div>
+</div>
+<div class="doc doc-object doc-method">
+<h2 class="doc doc-heading" id="youtube_upload.client.YoutubeUploader.upload_stream">
+
+        <code class="highlight language-python">
+upload_stream<span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_object</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chunksize</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        </code>
+
+
+      </h2>
+<div class="doc doc-contents ">
+<p>Uploads the file to YouTube from the specified file-like object.</p>
+<p>We are using this to stream files from S3 to YouTube!</p>
+<pre><code class="language-python">import s3fs
+from youtube_upload.client import YouTubeUploader
+fs = s3fs.S3FileSystem(anon=True)
+
+video = fs.open('s3://bucket/video.mp4')
+
+client = YouTubeUploader()
+
+client.authenticate()
+
+client.upload_stream(video)
+
+client.close()
+video.close()
+</code></pre>
+<p>The <code>options</code> parameter is a dictionary of options. The items are pretty self explanatory, here is an example options dictionary:</p>
+<pre><code class="language-Python"># Video options
+options = {
+    title : "Example title",
+    description : "Example description",
+    tags : ["tag1", "tag2", "tag3"],
+    categoryId : "22",
+    privacyStatus : "private",
+    kids : False
+    thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
+}
+</code></pre>
+<p>The parameter, <code>chunk_size</code> is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to <code>-1</code>, which is the default, it
+will send the video in one large request. Set this to a different value if you are having issues with the upload failing.</p>
+<p>Will return the response from YouTube, as well as the response of the thumbnail upload as a tuple.</p>
+<pre><code class="language-Python">response, thumbnail_response = client.upload(file_path, options)
 </code></pre>
 </div>
 </div>
