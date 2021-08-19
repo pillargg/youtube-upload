@@ -7,7 +7,7 @@ import uuid
 import httplib2
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from googleapiclient.http import MediaFileUpload
+from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
 from oauth2client.tools import run_flow
@@ -194,6 +194,79 @@ class YoutubeUploader():
             insert_request, bool(
                 options.get('thumbnailLink')), options)
 
+    def upload_stream(self, file_object, options=None, chunksize=(-1)):
+        '''
+        Uploads the file to YouTube from the specified file-like object.
+
+        We are using this to stream files from S3 to YouTube!
+
+        ```python
+        import s3fs
+        from youtube_upload.client import YouTubeUploader
+        fs = s3fs.S3FileSystem(anon=True)
+
+        video = fs.open('s3://bucket/video.mp4')
+
+        client = YouTubeUploader()
+
+        client.authenticate()
+
+        client.upload_stream(video)
+
+        client.close()
+        video.close()
+
+        ```
+
+        The `options` parameter is a dictionary of options. The items are pretty self explanatory, here is an example options dictionary:
+        ```Python
+        # Video options
+        options = {
+            title : "Example title",
+            description : "Example description",
+            tags : ["tag1", "tag2", "tag3"],
+            categoryId : "22",
+            privacyStatus : "private",
+            kids : False
+            thumbnailLink : "https://cdn.havecamerawilltravel.com/photographer/files/2020/01/youtube-logo-new-1068x510.jpg"
+        }
+        ```
+
+        The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it
+        will send the video in one large request. Set this to a different value if you are having issues with the upload failing.
+
+        Will return the response from YouTube, as well as the response of the thumbnail upload as a tuple.
+
+        ```Python
+        response, thumbnail_response = client.upload(file_path, options)
+        ```
+        '''
+        if options is None:
+            options = {}
+        body = {
+            'snippet': {
+                'title': options.get('title', 'Test Title'),
+                'description': options.get('description', 'Test Description'),
+                'tags': options.get('tags'),
+                'categoryId': options.get('category', '22')
+            },
+            'status': {
+                'privacyStatus': options.get('privacyStatus', VALID_PRIVACY_STATUSES[0]),
+                'selfDeclaredMadeForKids': options.get('kids', False)
+            }
+        }
+
+        media = MediaIoBaseUpload(file_object, "application/octet-stream", chunksize=chunksize, resumable=True)
+
+        insert_request = self.youtube.videos().insert(
+            part=",".join(
+                list(
+                    body.keys())), body=body, media_body=media)
+
+        return self._resumable_upload(
+            insert_request, bool(
+                options.get('thumbnailLink')), options)
+
     def _resumable_upload(self, insert_request, uploadThumbnail, options):
         response = None
         thumbnail_response = None
@@ -215,7 +288,7 @@ class YoutubeUploader():
 
                 else:
                     # skipcq: PYL-E1120
-                    raise HttpError(f'Unexpected response: {response}')
+                    raise Exception(f'Unexpected response: {response}')
             except HttpError as e:
                 if e.resp.status in RETRYABLE_STATUS_CODES:
                     error = "A retryable HTTP error %d occurred:\n%s" % (
@@ -230,7 +303,7 @@ class YoutubeUploader():
                 retry += 1
                 if retry > self.max_retry:
                     #skipcq: PYL-E1120
-                    raise HttpError('Exceeded max retries. ' + error)
+                    raise Exception('Exceeded max retries. ' + error)
 
                 print("Sleeping 5 seconds and then retrying...")
                 time.sleep(5)
