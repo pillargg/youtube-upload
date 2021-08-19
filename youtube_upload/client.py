@@ -162,27 +162,6 @@ class YoutubeUploader():
         The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it
         will send the video in one large request. Set this to a different value if you are having issues with the upload failing.
 
-        You can also add a callback function for the case where the upload were to fail. This is mainly for custom error handling and prompting users to re-authenticate.
-
-        The callback function is the parameter `noauth_callback`. The function passed should be able to accept a tuple of arguments. The parameter `noauth_args` is the arguments for the function. Here
-        is an example of the callback function being used.
-
-        ```Python
-        from youtube_upload.client import YoutubeUploader
-
-        def callback(*args):
-            print(args[0], args[1])
-
-        with YoutubeUploader() as youtube:
-            youtube.authenticate()
-            youtube.upload("test.mp4", noauth_callback=callback, noauth_args=("It failed."))
-        ```
-
-        And here is the example output in the case that the upload would fail.
-
-        ```
-        It failed. invalid_grant: Bad Request
-        ```
         '''
         if options is None:
             options = {}
@@ -205,7 +184,7 @@ class YoutubeUploader():
                     body.keys())), body=body, media_body=MediaFileUpload(
                 file_path, chunksize=chunksize, resumable=True))
 
-        self._resumable_upload(
+        return self._resumable_upload(
             insert_request, bool(
                 options.get('thumbnailLink')), options)
 
@@ -216,15 +195,15 @@ class YoutubeUploader():
 
         while response is None:
             try:
-                _, response = insert_request.next_chunk()
+                _, resp = insert_request.next_chunk()
                 if 'id' in response:
-                    video_id = response.get('id')
+                    video_id = resp.get('id')
                     if uploadThumbnail:
                         request = self.youtube.thumbnails().set(
                             videoId=video_id, media_body=MediaFileUpload(
                                 options.get('thumbnailLink')))
                         response = request.execute()
-                        print(response)
+                        break
                 else:
                     # skipcq: PYL-E1120
                     raise HttpError(f'Unexpected response: {response}')
@@ -233,7 +212,7 @@ class YoutubeUploader():
                     error = "A retryable HTTP error %d occurred:\n%s" % (
                         e.resp.status, e.content)
                 else:
-                    raise
+                    raise e
             except RETRYABLE_EXCEPTIONS as e:
                 error = "A retryable error occurred: %s" % e
 
@@ -241,10 +220,12 @@ class YoutubeUploader():
                 print(error)
                 retry += 1
                 if retry > self.max_retry:
-                    sys.exit("No longer attempting to retry.")
+                    raise HttpError('Exceeded max retries. ' + error)
 
                 print("Sleeping 5 seconds and then retrying...")
                 time.sleep(5)
+
+        return response
 
     def close(self):
         '''
