@@ -162,7 +162,7 @@ class YoutubeUploader():
         The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it
         will send the video in one large request. Set this to a different value if you are having issues with the upload failing.
 
-        Will return the response from YouTube, as well as the response of the thumbnail upload as a tuple. 
+        Will return the response from YouTube, as well as the response of the thumbnail upload as a tuple.
 
         ```Python
         response, thumbnail_response = client.upload(file_path, options)
@@ -212,7 +212,7 @@ class YoutubeUploader():
                                 options.get('thumbnailLink')))
                         thumbnail_response = request.execute()
                     break
-                        
+
                 else:
                     # skipcq: PYL-E1120
                     raise HttpError(f'Unexpected response: {response}')
