@@ -162,6 +162,12 @@ class YoutubeUploader():
         The parameter, `chunk_size` is the max size of the HTTP request to send the video. This parameter is in bytes, and if set to `-1`, which is the default, it
         will send the video in one large request. Set this to a different value if you are having issues with the upload failing.
 
+        Will return the response from YouTube, as well as the response of the thumbnail upload as a tuple. 
+
+        ```Python
+        response, thumbnail_response = client.upload(file_path, options)
+        ```
+
         '''
         if options is None:
             options = {}
@@ -190,20 +196,22 @@ class YoutubeUploader():
 
     def _resumable_upload(self, insert_request, uploadThumbnail, options):
         response = None
+        thumbnail_response = None
         error = None
         retry = 0
 
         while response is None:
             try:
-                _, resp = insert_request.next_chunk()
+                _, response = insert_request.next_chunk()
                 if 'id' in response:
-                    video_id = resp.get('id')
+                    video_id = response.get('id')
                     if uploadThumbnail:
                         request = self.youtube.thumbnails().set(
                             videoId=video_id, media_body=MediaFileUpload(
                                 options.get('thumbnailLink')))
-                        response = request.execute()
-                        break
+                        thumbnail_response = request.execute()
+                    break
+                        
                 else:
                     # skipcq: PYL-E1120
                     raise HttpError(f'Unexpected response: {response}')
@@ -225,7 +233,7 @@ class YoutubeUploader():
                 print("Sleeping 5 seconds and then retrying...")
                 time.sleep(5)
 
-        return response
+        return response, thumbnail_response
 
     def close(self):
         '''
