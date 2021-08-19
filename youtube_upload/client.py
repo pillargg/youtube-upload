@@ -256,7 +256,11 @@ class YoutubeUploader():
             }
         }
 
-        media = MediaIoBaseUpload(file_object, "application/octet-stream", chunksize=chunksize, resumable=True)
+        media = MediaIoBaseUpload(
+            file_object,
+            "application/octet-stream",
+            chunksize=chunksize,
+            resumable=True)
 
         insert_request = self.youtube.videos().insert(
             part=",".join(
