@@ -5,6 +5,7 @@
             - __init__
             - authenticate
             - upload
+            - upload_stream
             - close
     rendering: 
         show_root_heading: false
