@@ -8,27 +8,27 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.7
-    - name: Install Dependencies
-      run: |
-        pip install -r requirements.txt
-    - name: Commit and Push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        cat README.md > docs/index.md
-        git config user.name "Github Action"
-        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-        git remote set-url origin https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "there are changes";
-          git checkout master
-          git add -A
-          git commit -m "[bot] Update index.md to match README.md"
-          git push origin ${{ github.head_ref }}
-        fi
-        mkdocs gh-deploy -m "[bot] Updated documentation"
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Commit and Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat README.md > docs/index.md
+          git config user.name "Github Action"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git remote set-url origin https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "there are changes";
+            git checkout master
+            git add -A
+            git commit -m "[bot] Update index.md to match README.md"
+            git push origin ${{ github.head_ref }}
+          fi
+          mkdocs gh-deploy -m "[bot] Updated documentation"
