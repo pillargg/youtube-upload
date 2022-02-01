@@ -127,3 +127,5 @@ Parameter `tags` should be list of strings only. The parameter `categoryId` refe
 ```python
 uploader.close()
 ```
+
+This method deletes the OAuth file. If you do not want this behavior, skip calling this function.
