@@ -87,9 +87,6 @@ class YoutubeUploader():
 
         self.max_retry = MAX_RETRIES
 
-    def __del__(self):
-        self.close()
-
     # This is if you have another OAuth file to use
     def authenticate(
             self,
